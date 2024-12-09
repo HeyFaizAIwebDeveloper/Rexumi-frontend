@@ -21,22 +21,24 @@ const BuilderSidebar = ({
         <aside className="flex flex-col w-12">
             <div></div>
             <nav>
-                {steps.map((step) => (
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant={"ghost"}
-                                    className="rounded-full hover:bg-secondary/30"
-                                >
-                                    {React.createElement(step.icon)}
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{step.title}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                {steps.map((step, i) => (
+                    <React.Fragment key={i}>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant={"ghost"}
+                                        className="rounded-full hover:bg-secondary/30"
+                                    >
+                                        {React.createElement(step.icon)}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{step.title}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </React.Fragment>
                 ))}
             </nav>
             <div></div>
