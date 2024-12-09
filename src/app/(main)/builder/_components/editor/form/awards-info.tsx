@@ -17,7 +17,7 @@ import FormDialog from "../edit-form-dialog";
 
 
 
-import { AwardFormValues, awardSchema } from "@/lib/validations/resume";
+import { AwardFormValues, awardSchema, ResumeFromValues } from "@/lib/validations/resume";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "next/navigation";
@@ -59,8 +59,8 @@ function AwardsForm() {
             // Prepare the full resume data object
             const dataToSave = {
                 ...resumeData,
-                awards: updatedAwards,
-            };
+                awards: updatedAwards.awards,
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);
@@ -145,7 +145,7 @@ function AwardsForm() {
         }
 
         // Save to API and update context
-        saveResumeData(updatedawards);
+        saveResumeData({ awards: updatedawards });
 
         setOpen(false);
         setEditingIndex(null);

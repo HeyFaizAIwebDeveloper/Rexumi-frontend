@@ -23,14 +23,14 @@ export default function ResumeDashboard() {
                 setIsLoading(true);
                 await getResumes();
             } catch (error: any) {
-               
+                // Handle error if needed
             } finally {
                 setIsLoading(false);
             }
         };
-
+    
         fetchResumes();
-    }, []);
+    }, [getResumes]);
 
     return (
         <>

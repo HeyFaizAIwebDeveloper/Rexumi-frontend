@@ -17,7 +17,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useParams } from "next/navigation";
 import { updateResumeData } from "../../../../../../../action/updateResumeData";
 
-
 // Predefined color palette
 const COLOR_PALETTE = [
     "#475569", "#6B7280", "#EF4444", "#F97316", "#F59E0B", 
@@ -39,7 +38,7 @@ export default function ThemeSection() {
     const params = useParams();
     const resumeId = params.id as string;
 
-    // Initial theme state
+    // Initial theme state with default values
     const [theme, setTheme] = useState<ThemeColors>({
         background: resumeData?.theme?.background || "#ffffff",
         text: resumeData?.theme?.text || "#000000",
@@ -57,10 +56,7 @@ export default function ThemeSection() {
 
     // Normalize hex color
     const normalizeHexColor = (color: string): string => {
-        // Remove # if exists
         const cleanColor = color.replace('#', '');
-        
-        // Expand shorthand (3-char) hex to full 6-char
         const fullColor = cleanColor.length === 3 
             ? cleanColor.split('').map(char => char + char).join('') 
             : cleanColor;
@@ -97,7 +93,6 @@ export default function ThemeSection() {
     // Handle color change
     const handleColorChange = (color: string, key: keyof ThemeColors) => {
         try {
-            // Normalize and validate color
             const normalizedColor = normalizeHexColor(color);
             
             if (isValidHexColor(normalizedColor)) {
@@ -126,7 +121,7 @@ export default function ThemeSection() {
                 [key]: checked
             });
             
-            setResumeData(updatedResume);
+            setResumeData (updatedResume);
             
             toast({
                 title: "Setting Updated",
