@@ -9,7 +9,7 @@ import ResumeBuilder from "@/components/global/resumeBuilder";
 import { useToast } from "@/hooks/use-toast";
 import { useResumeContext } from "@/contexts/ResumeContext";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function BuilderPage({ params }: { params: { id: string } }) {
     // Ensure the function name starts with an uppercase letter
 
     const [isClient, setIsClient] = useState(false);

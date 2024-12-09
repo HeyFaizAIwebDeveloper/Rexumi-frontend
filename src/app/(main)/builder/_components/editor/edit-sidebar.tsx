@@ -19,7 +19,6 @@ const BuilderSidebar = ({
 }: BuilderSidebarProps) => {
     return (
         <aside className="flex flex-col w-12">
-            <div></div>
             <nav>
                 {steps.map((step, i) => (
                     <React.Fragment key={i}>

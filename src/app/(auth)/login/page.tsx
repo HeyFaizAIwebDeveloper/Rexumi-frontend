@@ -107,7 +107,7 @@ export default function LoginPage() {
                         Sign in to your account
                     </h1>
                     <p className=" flex gap-1.5 items-center text-gray-400 text-sm mb-8 font-light">
-                        Don&apos;t have an account ?
+                        Don&lsquo;t have an account ?
                         <Link
                             href="/register"
                             className=" flex items-center gap-1.5 text-white  hover:underline"
