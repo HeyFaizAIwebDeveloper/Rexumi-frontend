@@ -54,13 +54,13 @@ function AwardsForm() {
         },
     });
 
-    const saveResumeData = async (updatedAwards: AwardFormValues) => {
+    const saveResumeData = async (updatedAward: AwardFormValues) => {
         try {
             // Prepare the full resume data object
             const dataToSave = {
                 ...resumeData,
-                awards: updatedAwards.awards,
-            } as ResumeFromValues;
+                awards: updatedAward,
+            } as unknown as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);
@@ -82,6 +82,7 @@ function AwardsForm() {
             setIsSaving(false);
         }
     };
+
 
     const handleEdit = (index: number) => {
         const AwardsToEdit = resumeData?.awards[index];
@@ -136,6 +137,7 @@ function AwardsForm() {
 
         const updatedawards = Array.from(resumeData?.awards || []);
 
+        console.log("updatedawards:", updatedawards)
         if (editingIndex !== null) {
             // Update existing profile
             updatedawards[editingIndex] = newawards;
@@ -145,7 +147,7 @@ function AwardsForm() {
         }
 
         // Save to API and update context
-        saveResumeData({ awards: updatedawards });
+        saveResumeData(updatedawards);
 
         setOpen(false);
         setEditingIndex(null);
