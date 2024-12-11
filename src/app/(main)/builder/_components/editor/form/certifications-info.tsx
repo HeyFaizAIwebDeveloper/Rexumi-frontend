@@ -24,6 +24,7 @@ import FormDialog from "../edit-form-dialog";
 import {
     certificationSchema,
     CertificationsFormValues,
+    ResumeFromValues,
 } from "@/lib/validations/resume";
 
 import { useResumeContext } from "@/contexts/ResumeContext";
@@ -60,34 +61,6 @@ const CertificationsForm = () => {
         },
     });
 
-    const saveResumeData = async (updatedCertifications: CertificationsFormValues) => {
-        try {
-            // Prepare the full resume data object
-            const dataToSave = {
-                ...resumeData,
-                certifications: updatedCertifications,
-            };
-
-            // Use the new API function to update resume data
-            const updatedData = await updateResumeData(resumeId, dataToSave);
-
-            // Update the context with the returned data
-            setResumeData(updatedData);
-
-            toast({
-                title: "Success",
-                description: "Certifications updated successfully",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Error",
-                description: error.message,
-                variant: "destructive",
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
 
     const handleEdit = (index: number) => {
         const certificationsToEdit = resumeData?.certifications[index];
@@ -126,16 +99,42 @@ const CertificationsForm = () => {
         setOpen(true);
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         const updatedCertifications = resumeData?.certifications?.filter(
             (_, i) => i !== index
         );
 
+        setIsSaving(true);
         // Save to API and update context
-        saveResumeData(updatedCertifications || []);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                certifications: updatedCertifications,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Certifications updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const onSubmit = (data: CertificationsFormValues) => {
+    const onSubmit = async (data: CertificationsFormValues) => {
         const newcertifications = data.certifications[0];
 
         if (!newcertifications) return;
@@ -152,13 +151,36 @@ const CertificationsForm = () => {
             updatedcertifications.push(newcertifications);
         }
 
-        saveResumeData(updatedcertifications);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                certifications: updatedcertifications,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Certifications updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        }
         setOpen(false);
         setEditingIndex(null);
         form.reset();
     };
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
 
         const items = Array.from(resumeData?.certifications || []);
@@ -166,7 +188,33 @@ const CertificationsForm = () => {
         items.splice(result.destination.index, 0, reorderedItem);
 
         setIsSaving(true);
-        saveResumeData(items);
+         // Save to API and update context
+         try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                certifications: items,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Certifications updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
@@ -194,7 +242,7 @@ const CertificationsForm = () => {
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            className="flex items-center justify-between bg-secondary/10"
+                                            className="flex items-center justify-between "
                                         >
                                             {isSaving ? (
                                                 <div className="w-full flex justify-center items-center h-full min-h-14 bg-secondary/30">
@@ -204,7 +252,7 @@ const CertificationsForm = () => {
                                                     />
                                                 </div>
                                             ) : (
-                                                <div className="  flex w-full bg-zinc-200 dark:bg-transparent">
+                                                <div className="  flex w-full bg-transparent">
                                                     <div className="flex w-full">
                                                         <div
                                                             {...provided.dragHandleProps}
@@ -216,7 +264,7 @@ const CertificationsForm = () => {
                                                             />
                                                         </div>
                                                         <div className="flex-1 ml-2 px-1 py-2">
-                                                            <p className="text-base text-white font-medium">
+                                                            <p className="text-base  font-medium">
                                                                 {item.name}
                                                             </p>
                                                             <p className="text-xs text-white/50">

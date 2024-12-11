@@ -10,6 +10,7 @@ import {
 import {
     EducationFormValues,
     educationSchema,
+    ResumeFromValues,
 } from "@/lib/validations/resume";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -59,35 +60,7 @@ const EducationForm = () => {
         },
     });
 
-    const saveResumeData = async (updatedEducation: EducationFormValues) => {
-        try {
-            // Prepare the full resume data object
-            const dataToSave = {
-                ...resumeData,
-                education: updatedEducation,
-            };
-
-            // Use the new API function to update resume data
-            const updatedData = await updateResumeData(resumeId, dataToSave);
-
-            // Update the context with the returned data
-            setResumeData(updatedData);
-
-            toast({
-                title: "Success",
-                description: "Education updated successfully",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Error",
-                description: error.message,
-                variant: "destructive",
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
-
+   
     const handleEdit = (index: number) => {
         const educationToEdit = resumeData?.education?.[index];
         if (educationToEdit) {
@@ -129,16 +102,41 @@ const EducationForm = () => {
         setOpen(true);
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         const updatedEducation = resumeData?.education?.filter(
             (_, i) => i !== index
         );
 
         // Save to API and update context
-        saveResumeData(updatedEducation || []);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                education: updatedEducation,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Education updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const onSubmit = (data: EducationFormValues) => {
+    const onSubmit = async (data: EducationFormValues) => {
         const newEducation = data?.education?.[0];
 
         if (!newEducation) return;
@@ -154,14 +152,39 @@ const EducationForm = () => {
         }
 
         // Save to API and update context
-        saveResumeData(updatedEducation);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                education: updatedEducation,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Education updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
 
         setOpen(false);
         form.reset();
         setEditingIndex(null);
     };
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
 
         const items = Array.from(resumeData?.education || []);
@@ -169,7 +192,32 @@ const EducationForm = () => {
         items.splice(result.destination.index, 0, reorderedItem);
 
         setIsSaving(true);
-        saveResumeData(items);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                education: items,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Education updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (

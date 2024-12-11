@@ -23,6 +23,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     ExperienceFormValues,
+    ResumeFromValues,
     experiencechema,
 } from "@/lib/validations/resume";
 import FormDropdownMenu from "../edit-form-drop-menu";
@@ -61,13 +62,21 @@ const ExperienceForm = () => {
         },
     });
 
-    const saveResumeData = async (updatedExperience: ExperienceFormValues) => {
+
+    const onDragEnd = async (result: any) => {
+        if (!result.destination) return;
+
+        const items = Array.from(resumeData?.experience || []);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        setIsSaving(true);
         try {
             // Prepare the full resume data object
             const dataToSave = {
                 ...resumeData,
-                experience: updatedExperience,
-            };
+                experience: items,
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);
@@ -90,18 +99,7 @@ const ExperienceForm = () => {
         }
     };
 
-    const onDragEnd = (result: any) => {
-        if (!result.destination) return;
-
-        const items = Array.from(resumeData?.experience || []);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-
-        setIsSaving(true);
-        saveResumeData(items);
-    };
-
-    const onSubmit = (data: ExperienceFormValues) => {
+    const onSubmit = async (data: ExperienceFormValues) => {
         const newExperience = data?.experience?.[0];
 
         if (!newExperience) return;
@@ -117,8 +115,32 @@ const ExperienceForm = () => {
         }
 
         // Save to API and update context
-        saveResumeData(updatedExperience);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                experience: updatedExperience,
+            } as ResumeFromValues;
 
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Experience updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
         setOpen(false);
         form.reset();
         setEditingIndex(null);
@@ -164,13 +186,38 @@ const ExperienceForm = () => {
         }
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         const updatedExperience = resumeData?.experience?.filter(
             (_, i) => i !== index
         );
 
         // Save to API and update context
-        saveResumeData(updatedExperience || []);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                experience: updatedExperience,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Experience removed successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (

@@ -8,7 +8,11 @@ import {
     X,
 } from "@phosphor-icons/react";
 import FormHeading from "../edit-form-heading";
-import { skillschema, SkillsFormValues } from "@/lib/validations/resume";
+import {
+    ResumeFromValues,
+    skillschema,
+    SkillsFormValues,
+} from "@/lib/validations/resume";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -30,7 +34,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useParams } from "next/navigation";
 import { updateResumeData } from "../../../../../../../action/updateResumeData";
-
 
 function SkillsForm() {
     const { resumeData, setResumeData } = useResumeContext();
@@ -63,7 +66,7 @@ function SkillsForm() {
             const dataToSave = {
                 ...resumeData,
                 skills: updatedSkills,
-            };
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);
@@ -231,7 +234,7 @@ function SkillsForm() {
                                                             </p>
                                                             <p className="text-xs text-white/50">
                                                                 {
-                                                                    item.description
+                                                                    item.description ? item.description : "No description provided"
                                                                 }
                                                             </p>
                                                         </div>

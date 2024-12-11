@@ -4,6 +4,7 @@ import { CircleNotch, DotsSixVertical, HandHeart } from "@phosphor-icons/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
+    ResumeFromValues,
     VolunteeringFormValues,
     volunteeringSchema,
 } from "@/lib/validations/resume";
@@ -56,34 +57,7 @@ function VolunteeringForm() {
         },
     });
 
-    const saveResumeData = async (updatedVolunteering: VolunteeringFormValues) => {
-        try {
-            // Prepare the full resume data object
-            const dataToSave = {
-                ...resumeData,
-                volunteering: updatedVolunteering,
-            };
-
-            // Use the new API function to update resume data
-            const updatedData = await updateResumeData(resumeId, dataToSave);
-
-            // Update the context with the returned data
-            setResumeData(updatedData);
-
-            toast({
-                title: "Success",
-                description: "Volunteering updated successfully",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Error",
-                description: error.message,
-                variant: "destructive",
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
+ 
 
     const handleEdit = (index: number) => {
         const volunteeringsToEdit = resumeData?.volunteering[index];
@@ -124,16 +98,41 @@ function VolunteeringForm() {
         setOpen(true);
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         const updatedInterests = resumeData?.volunteering?.filter(
             (_, i) => i !== index
         );
 
         // Save to API and update context
-        saveResumeData(updatedInterests || []);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                volunteering: updatedInterests,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Volunteering removed successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const onSubmit = (data: VolunteeringFormValues) => {
+    const onSubmit = async (data: VolunteeringFormValues) => {
         const newvolunteerings = data.volunteering[0];
 
         if (!newvolunteerings) return;
@@ -148,13 +147,38 @@ function VolunteeringForm() {
             updatedvolunteerings.push(newvolunteerings);
         }
 
-        saveResumeData(updatedvolunteerings);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                volunteering: updatedvolunteerings,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Volunteering updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
         setOpen(false);
         setEditingIndex(null);
         form.reset();
     };
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
 
         const items = Array.from(resumeData?.volunteering || []);
@@ -162,7 +186,32 @@ function VolunteeringForm() {
         items.splice(result.destination.index, 0, reorderedItem);
 
         setIsSaving(true);
-        saveResumeData(items);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                volunteering: items,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Volunteering updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (

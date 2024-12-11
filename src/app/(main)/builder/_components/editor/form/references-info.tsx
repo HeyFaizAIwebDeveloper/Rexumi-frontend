@@ -1,7 +1,7 @@
 import { CircleNotch, DotsSixVertical, Users } from "@phosphor-icons/react";
 import React, { useState } from "react";
 import FormHeading from "../edit-form-heading";
-import { ReferenceFormValues, referenceSchema } from "@/lib/validations/resume";
+import { ReferenceFormValues, referenceSchema, ResumeFromValues } from "@/lib/validations/resume";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
@@ -55,7 +55,7 @@ const ReferencesForm = () => {
             const dataToSave = {
                 ...resumeData,
                 references: updatedReferences,
-            };
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);

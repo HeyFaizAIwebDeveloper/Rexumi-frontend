@@ -1,6 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { PuzzlePiece, DotsSixVertical, X, CircleNotch } from "@phosphor-icons/react";
+import {
+    PuzzlePiece,
+    DotsSixVertical,
+    X,
+    CircleNotch,
+} from "@phosphor-icons/react";
 import FormHeading from "../edit-form-heading";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +22,11 @@ import { Input } from "@/components/ui/input";
 import FormDropdownMenu from "../edit-form-drop-menu";
 import { Button } from "@/components/ui/button";
 import FormDialog from "../edit-form-dialog";
-import { projectSchema, ProjectsFormValues } from "@/lib/validations/resume";
+import {
+    projectSchema,
+    ProjectsFormValues,
+    ResumeFromValues,
+} from "@/lib/validations/resume";
 import { Badge } from "@/components/ui/badge";
 import { TextEditor } from "@/components/global/textEditor";
 import { updateResumeData } from "../../../../../../../action/updateResumeData";
@@ -25,7 +34,6 @@ import PopupTag from "../edit-popup-tag";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "next/navigation";
-
 
 const ProjectsForm = () => {
     const { resumeData, setResumeData } = useResumeContext();
@@ -61,7 +69,7 @@ const ProjectsForm = () => {
             const dataToSave = {
                 ...resumeData,
                 projects: updatedProjects,
-            };
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);
@@ -96,7 +104,7 @@ const ProjectsForm = () => {
                         description: projectsToEdit.description,
                         url: projectsToEdit.url,
                         urlTag: projectsToEdit.urlTag,
-                        keywords: [],
+                        keywords: projectsToEdit.keywords,
                     },
                 ],
             });

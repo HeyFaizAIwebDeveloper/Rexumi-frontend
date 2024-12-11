@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { GameController, DotsSixVertical, X, CircleNotch } from "@phosphor-icons/react";
+import {
+    GameController,
+    DotsSixVertical,
+    X,
+    CircleNotch,
+} from "@phosphor-icons/react";
 import FormHeading from "../edit-form-heading";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,13 +23,16 @@ import { Input } from "@/components/ui/input";
 import FormDropdownMenu from "../edit-form-drop-menu";
 import { Button } from "@/components/ui/button";
 import FormDialog from "../edit-form-dialog";
-import { interestSchema, InterestsFormValues } from "@/lib/validations/resume";
+import {
+    interestSchema,
+    InterestsFormValues,
+    ResumeFromValues,
+} from "@/lib/validations/resume";
 import { Badge } from "@/components/ui/badge";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "next/navigation";
 import { updateResumeData } from "../../../../../../../action/updateResumeData";
-
 
 const InterestsForm = () => {
     const { resumeData, setResumeData } = useResumeContext();
@@ -43,50 +51,20 @@ const InterestsForm = () => {
             interests: resumeData?.interests || [
                 {
                     name: "",
-                    keywords: []
+                    keywords: [],
                 },
             ],
         },
     });
 
-    
-    const saveResumeData = async (updatedInterests: any[]) => {
-        try {
-            // Prepare the full resume data object
-            const dataToSave = {
-                ...resumeData,
-                interests: updatedInterests,
-            };
-
-            // Use the new API function to update resume data
-            const updatedData = await updateResumeData(resumeId, dataToSave);
-
-            // Update the context with the returned data
-            setResumeData(updatedData);
-
-            toast({
-                title: "Success",
-                description: "Interests updated successfully",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Error",
-                description: error.message,
-                variant: "destructive",
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
-
     const handleEdit = (index: number) => {
         const interestsToEdit = resumeData?.interests[index];
-        if(interestsToEdit){
+        if (interestsToEdit) {
             form.reset({
                 interests: [
                     {
                         name: interestsToEdit.name,
-                        keywords: [],
+                        keywords: interestsToEdit.keywords, // Set existing keywords here
                     },
                 ],
             });
@@ -108,16 +86,41 @@ const InterestsForm = () => {
         setOpen(true);
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemove = async (index: number) => {
         const updatedInterests = resumeData?.interests?.filter(
             (_, i) => i !== index
         );
 
         // Save to API and update context
-        saveResumeData(updatedInterests || []);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                interests: updatedInterests,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Interests removed successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const onSubmit = (data: InterestsFormValues) => {
+    const onSubmit = async (data: InterestsFormValues) => {
         const newinterests = data.interests[0];
 
         if (!newinterests) return;
@@ -133,23 +136,72 @@ const InterestsForm = () => {
         }
 
         // Save to API and update context
-        saveResumeData(updatedinterests);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                interests: updatedinterests,
+            } as ResumeFromValues;
 
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Interests updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
 
         setOpen(false);
         setEditingIndex(null);
         form.reset();
     };
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
 
         const items = Array.from(resumeData?.interests || []);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
 
-          setIsSaving(true);
-        saveResumeData(items);
+        setIsSaving(true);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                interests: items,
+            } as ResumeFromValues;
+
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Interests updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -232,9 +284,12 @@ const InterestsForm = () => {
                                                             </p>
                                                             <p className="text-xs text-white/50">
                                                                 {item.keywords
-                                                                    .length == 0
+                                                                    .length ===
+                                                                0
                                                                     ? "keywords"
-                                                                    : item.keywords}
+                                                                    : item.keywords.join(
+                                                                          ", "
+                                                                      )}
                                                             </p>
                                                         </div>
                                                     </div>

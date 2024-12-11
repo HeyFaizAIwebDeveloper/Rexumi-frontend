@@ -6,6 +6,7 @@ import { Books, CircleNotch, DotsSixVertical } from "@phosphor-icons/react";
 import {
     PublicationFormValues,
     publicationSchema,
+    ResumeFromValues,
 } from "@/lib/validations/resume";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -62,7 +63,7 @@ const PublicationsForm = () => {
             const dataToSave = {
                 ...resumeData,
                 publications: updatedPublications,
-            };
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);

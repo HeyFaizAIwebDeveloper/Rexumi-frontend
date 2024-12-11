@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import FormHeading from "../edit-form-heading";
 import { CircleNotch, DotsSixVertical, Translate } from "@phosphor-icons/react";
-import { LanguageFormValues, languageSchema } from "@/lib/validations/resume";
+import { LanguageFormValues, languageSchema, ResumeFromValues } from "@/lib/validations/resume";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
@@ -54,7 +54,7 @@ const LanguagesForm = () => {
             const dataToSave = {
                 ...resumeData,
                 languages: updatedLanguages,
-            };
+            } as ResumeFromValues;
 
             // Use the new API function to update resume data
             const updatedData = await updateResumeData(resumeId, dataToSave);

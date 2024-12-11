@@ -14,6 +14,7 @@ import {
 import {
     ProfessionalSummaryFormValues,
     professionalSummarySchema,
+    ResumeFromValues,
 } from "@/lib/validations/resume";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useToast } from "@/hooks/use-toast";
@@ -45,7 +46,7 @@ const SummaryForm = () => {
                 const dataToSave = {
                     ...resumeData,
                     ...data,
-                };
+                } as ResumeFromValues;
 
                 const updatedData = await updateResumeData(
                     resumeId,
