@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus, User, X } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
-import { basicSchema, BasicsFormValues } from "@/lib/validations/resume";
+import { basicSchema, BasicsFormValues, ResumeFromValues } from "@/lib/validations/resume";
 import { useEffect, useRef, useState } from "react";
 import FormHeading from "../edit-form-heading";
 
@@ -36,7 +36,7 @@ const BasicsForm = () => {
     const form = useForm<BasicsFormValues>({
         resolver: zodResolver(basicSchema),
         defaultValues: {
-            picture: resumeData?.picture || "",
+            picture: resumeData?.picture instanceof File ? resumeData.picture : undefined,
             fullName: resumeData?.fullName || "",
             headline: resumeData?.headline || "",
             email: resumeData?.email || "",
@@ -62,7 +62,7 @@ const BasicsForm = () => {
                 const dataToSave = {
                     ...resumeData,
                     ...data,
-                };
+                } as unknown as ResumeFromValues;
 
                 const updatedData = await updateResumeData(
                     resumeId,
