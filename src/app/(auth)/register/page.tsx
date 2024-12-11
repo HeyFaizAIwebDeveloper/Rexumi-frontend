@@ -265,11 +265,11 @@ export default function LoginPage() {
             {/* Right Column - Background Image */}
             <div className="hidden lg:block flex-1 relative">
                 <Image
-                    src="/bg2.jpeg"
+                    src="/bg.jpeg"
                     alt="background"
                     fill
                     quality={100}
-                    className="  object-cover "
+                    className="object-cover "
                     priority
                 />
                 <div className="absolute select-none  text-black p-2 bottom-4 right-4  font-light text-sm bg-opacity-20 bg-white shadow-md backdrop-filter backdrop-blur-md">
