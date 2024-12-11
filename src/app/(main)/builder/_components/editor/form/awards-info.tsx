@@ -15,13 +15,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FormDialog from "../edit-form-dialog";
 
-
-
-import { AwardFormValues, awardSchema, ResumeFromValues } from "@/lib/validations/resume";
+import {
+    AwardFormValues,
+    awardSchema,
+    ResumeFromValues,
+} from "@/lib/validations/resume";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "next/navigation";
-
 
 import FormDropdownMenu from "../edit-form-drop-menu";
 import PopupTag from "../edit-popup-tag";
@@ -83,10 +84,9 @@ function AwardsForm() {
         }
     };
 
-
     const handleEdit = (index: number) => {
         const AwardsToEdit = resumeData?.awards[index];
-        if(AwardsToEdit){
+        if (AwardsToEdit) {
             form.reset({
                 awards: [
                     {
@@ -121,13 +121,33 @@ function AwardsForm() {
         setOpen(true);
     };
 
-    const handleRemove = (index: number) => {
-        const updatedAward = resumeData?.awards?.filter(
-            (_, i) => i !== index
-        );
+    const handleRemove = async (index: number) => {
+        // Filter out the award at the specified index
+        const updatedAward =
+            resumeData?.awards?.filter((_, i) => i !== index) || [];
 
-        // Save to API and update context
-        saveResumeData(updatedAward || []);
+        try {
+            const datatoSave = {
+                ...resumeData,
+                awards: updatedAward,
+            }
+            // Save to API and update context
+            const updatedData = await updateResumeData(resumeId, datatoSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Award removed successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        }
     };
 
     const onSubmit = (data: AwardFormValues) => {
@@ -137,7 +157,7 @@ function AwardsForm() {
 
         const updatedawards = Array.from(resumeData?.awards || []);
 
-        console.log("updatedawards:", updatedawards)
+        console.log("updatedawards:", updatedawards);
         if (editingIndex !== null) {
             // Update existing profile
             updatedawards[editingIndex] = newawards;
