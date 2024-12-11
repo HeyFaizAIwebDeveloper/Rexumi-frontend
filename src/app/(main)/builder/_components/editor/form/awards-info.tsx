@@ -122,12 +122,12 @@ function AwardsForm() {
     };
 
     const handleRemove = (index: number) => {
-        const updatedAwards = resumeData?.awards?.filter(
+        const updatedAward = resumeData?.awards?.filter(
             (_, i) => i !== index
         );
 
         // Save to API and update context
-        saveResumeData(updatedAwards || []);
+        saveResumeData(updatedAward || []);
     };
 
     const onSubmit = (data: AwardFormValues) => {
