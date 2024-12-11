@@ -16,8 +16,8 @@ export default function ResumeForm() {
     const resumeId = params.id as string;
 
     // Use useMemo to memoize the current step calculation
-    const currentStep = useMemo(() => 
-        searchParams.get("step") || steps[0].key, 
+    const currentStep = useMemo(
+        () => searchParams.get("step") || steps[0].key,
         [searchParams]
     );
 
@@ -27,17 +27,22 @@ export default function ResumeForm() {
     }
 
     // Use useMemo to memoize FormComponent
-    const FormComponent = useMemo(() => 
-        steps.find((step) => step.key === currentStep)?.component, 
+    const FormComponent = useMemo(
+        () => steps.find((step) => step.key === currentStep)?.component,
         [currentStep]
     );
 
     // Use useMemo to memoize navigation steps
     const { previousStep, nextStep } = useMemo(() => {
-        const currentIndex = steps.findIndex(step => step.key === currentStep);
+        const currentIndex = steps.findIndex(
+            (step) => step.key === currentStep
+        );
         return {
             previousStep: currentIndex > 0 ? steps[currentIndex - 1].key : null,
-            nextStep: currentIndex < steps.length - 1 ? steps[currentIndex + 1].key : null
+            nextStep:
+                currentIndex < steps.length - 1
+                    ? steps[currentIndex + 1].key
+                    : null,
         };
     }, [currentStep]);
 
@@ -52,7 +57,7 @@ export default function ResumeForm() {
     return (
         <div className="h-full w-full flex flex-col justify-between">
             <div>
-                {FormComponent && (
+                {FormComponent && resumeData && (
                     <FormComponent
                         resumeData={resumeData}
                         setResumeData={setResumeData}

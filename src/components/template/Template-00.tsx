@@ -80,7 +80,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                 }}
                 className={`text-2xl font-bold pb-1 mb-2 flex items-center  `}
             >
-                {hideIcons && icon && <span className="mr-2">{icon}</span>}
+                {!hideIcons && icon && <span className="mr-2">{icon}</span>}
                 {title}
             </h2>
             {children}
@@ -125,13 +125,18 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                             index: React.Key | null | undefined
                         ) => (
                             <a
+                                style={{
+                                    backgroundColor: `rgba(${hexToRgb(
+                                        theme?.primary
+                                    )}, 0.1)`,
+                                }}
                                 key={index}
                                 href={profile.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center bg-gray-100 p-3 rounded hover:bg-gray-200 transition-colors"
+                                className="flex items-center  p-3 rounded  transition-colors"
                             >
-                                {hideIcons && (
+                                {!hideIcons && (
                                     <Globe
                                         color={theme?.primary}
                                         className="w-5 h-5 mr-2"
@@ -640,9 +645,15 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                         },
                         index: React.Key | null | undefined
                     ) => (
-                        <div key={index}  style={{
-                            backgroundColor: `rgba(${hexToRgb(theme?.primary)}, 0.1)`,
-                        }} className=" p-4 rounded">
+                        <div
+                            key={index}
+                            style={{
+                                backgroundColor: `rgba(${hexToRgb(
+                                    theme?.primary
+                                )}, 0.1)`,
+                            }}
+                            className=" p-4 rounded"
+                        >
                             <h3 className="font-semibold">{ref.name}</h3>
                             {ref.description && (
                                 <p className="text-gray-600">
@@ -1215,7 +1226,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                         <div className="flex flex-wrap gap-4 mt-4 text-sm">
                             {location && (
                                 <div className="flex items-center gap-1">
-                                    {hideIcons && (
+                                    {!hideIcons && (
                                         <MapPin
                                             color={theme?.primary}
                                             className="w-4 h-4"
@@ -1226,7 +1237,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                             )}
                             {phone && (
                                 <div className="flex items-center gap-1">
-                                    {hideIcons && (
+                                    {!hideIcons && (
                                         <Phone
                                             color={theme?.primary}
                                             className="w-4 h-4"
@@ -1237,7 +1248,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                             )}
                             {email && (
                                 <div className="flex items-center gap-1">
-                                    {hideIcons && (
+                                    {!hideIcons && (
                                         <Envelope
                                             color={theme?.primary}
                                             className="w-4 h-4"
@@ -1248,7 +1259,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                             )}
                             {website && (
                                 <div className="flex items-center gap-1">
-                                    {hideIcons && (
+                                    {!hideIcons && (
                                         <Link
                                             color={theme?.primary}
                                             className="w-4 h-4"
@@ -1268,7 +1279,7 @@ const Template00 = ({ resumedata }: { resumedata: any }) => {
                                     key={index}
                                     className="flex items-center gap-1"
                                 >
-                                    {hideIcons && (
+                                    {!hideIcons && (
                                         <Globe
                                             color={theme?.primary}
                                             className="w-4 h-4"
