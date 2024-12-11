@@ -70,7 +70,7 @@ export default function ThemeSection() {
             try {
                 const updatedResume = await updateResumeData(resumeId, {
                     theme: newTheme
-                });
+                }as ResumeFromValues);
                 
                 setResumeData(updatedResume);
                 
@@ -117,11 +117,13 @@ export default function ThemeSection() {
         key: keyof Pick<ResumeFromValues, 'hideIcons' | 'underlineLinks'>
     ) => {
         try {
+            // Merge the existing resume data with the new switch state
             const updatedResume = await updateResumeData(resumeId, {
-                [key]: checked
-            });
+                ...resumeData, // Spread the existing resume data
+                [key]: checked // Update the specific key with the new value
+            } as ResumeFromValues);
             
-            setResumeData (updatedResume);
+            setResumeData(updatedResume);
             
             toast({
                 title: "Setting Updated",

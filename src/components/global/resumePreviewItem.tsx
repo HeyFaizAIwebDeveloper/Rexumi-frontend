@@ -3,7 +3,7 @@ import React from "react";
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { ResumeFromValues } from "@/lib/validations/resume";
 import Template03 from "../template/Template-03";
-import Template02 from "../template/Template-02";
+import Template00 from "../template/Template-00";
 
 
 export default function ResumePreviewItem() {
@@ -14,7 +14,7 @@ export default function ResumePreviewItem() {
             case 1:
                 return <Template03 resumedata={resumeData} />;
                 default:
-                return <Template02 resumedata={resumeData} />;
+                return <Template00 resumedata={resumeData} />;
         }
     };
 
