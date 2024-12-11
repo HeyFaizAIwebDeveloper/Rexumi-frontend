@@ -130,7 +130,7 @@ function AwardsForm() {
             const datatoSave = {
                 ...resumeData,
                 awards: updatedAward,
-            }
+            } as unknown as ResumeFromValues;
             // Save to API and update context
             const updatedData = await updateResumeData(resumeId, datatoSave);
 
