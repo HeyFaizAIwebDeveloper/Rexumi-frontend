@@ -2,7 +2,6 @@ import React from "react";
 
 import { useResumeContext } from "@/contexts/ResumeContext";
 import { ResumeFromValues } from "@/lib/validations/resume";
-import Template03 from "../template/Template-03";
 import Template00 from "../template/Template-00";
 
 
@@ -12,7 +11,7 @@ export default function ResumePreviewItem() {
     const renderTemplate = (resumeData: ResumeFromValues) => {
         switch (resumeData.template) {
             case 1:
-                return <Template03 resumedata={resumeData} />;
+                return <div>No Resume Template</div>
                 default:
                 return <Template00 resumedata={resumeData} />;
         }

@@ -33,7 +33,7 @@ import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { Underline } from "@tiptap/extension-underline";
-import {BulletList} from '@tiptap/extension-bullet-list'
+import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
 import ListKeymap from '@tiptap/extension-list-keymap'
