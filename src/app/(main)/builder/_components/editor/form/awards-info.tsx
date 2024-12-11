@@ -136,7 +136,6 @@ function AwardsForm() {
 
             // Update the context with the returned data
             setResumeData(updatedData);
-
             toast({
                 title: "Success",
                 description: "Award removed successfully",
@@ -150,14 +149,13 @@ function AwardsForm() {
         }
     };
 
-    const onSubmit = (data: AwardFormValues) => {
+    const onSubmit = async (data: AwardFormValues) => {
         const newawards = data.awards[0];
 
         if (!newawards) return;
 
         const updatedawards = Array.from(resumeData?.awards || []);
 
-        console.log("updatedawards:", updatedawards);
         if (editingIndex !== null) {
             // Update existing profile
             updatedawards[editingIndex] = newawards;
@@ -167,22 +165,69 @@ function AwardsForm() {
         }
 
         // Save to API and update context
-        saveResumeData(updatedawards);
+        try {
+            // Prepare the full resume data object
+            const dataToSave = {
+                ...resumeData,
+                awards: updatedawards,
+            } as unknown as ResumeFromValues;
 
+            // Use the new API function to update resume data
+            const updatedData = await updateResumeData(resumeId, dataToSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+
+            toast({
+                title: "Success",
+                description: "Awards updated successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        }
         setOpen(false);
         setEditingIndex(null);
         form.reset();
     };
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = async (result: any) => {
         if (!result.destination) return;
 
         const items = Array.from(resumeData?.awards || []);
+
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
 
         setIsSaving(true);
-        saveResumeData(items);
+
+        try {
+            const datatoSave = {
+                ...resumeData,
+                awards: items,
+            } as unknown as ResumeFromValues;
+
+            // Save to API and update context
+            const updatedData = await updateResumeData(resumeId, datatoSave);
+
+            // Update the context with the returned data
+            setResumeData(updatedData);
+            toast({
+                title: "Success",
+                description: "Award removed successfully",
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive",
+            });
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
