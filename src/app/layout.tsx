@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ResumeProvider } from "@/contexts/ResumeContext";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,16 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cn(inter.className, "w-full h-full bg-black text-white")}>
-                <ResumeProvider>{children}</ResumeProvider>
+            <body
+                className={cn(
+                    inter.className,
+                    "w-full h-full bg-black text-white"
+                )}
+            >
+                <ResumeProvider>
+                    {children}
+                    <Toaster />
+                </ResumeProvider>
             </body>
         </html>
     );
