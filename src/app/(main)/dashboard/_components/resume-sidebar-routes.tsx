@@ -40,21 +40,23 @@ const ResumeSidebarRoutes = () => {
 
             <div className="p-6 text-sm text-muted-foreground space-y-5">
                 <div>
-                    <LogoutAlert/>
+                    <LogoutAlert />
                 </div>
                 <div>
-                    <div>Licensed under MIT</div>
+                    <div>© All rights reserved</div>
                     <div>By the community, for the community.</div>
                     <div className="mt-2">
                         A passion project by{" "}
                         <Link
-                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://faizkhan-theta.vercel.app"
                             className="underline hover:text-foreground"
                         >
                             Faiz Khan
                         </Link>
                     </div>
-                    <div className="mt-4">Reactive Resume v4.1.8</div>
+                    <div className="mt-4">Rexumi Resume v1.0.0</div>
                 </div>
             </div>
         </div>

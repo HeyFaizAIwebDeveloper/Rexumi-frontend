@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ interface ResumeSidebarItemProps {
 const ResumeSidebarItem = ({ icon, label, href }: ResumeSidebarItemProps) => {
     const pathname = usePathname();
     const router = useRouter();
-    
+
     const isActive =
         (pathname === "/" && href === "/") ||
         pathname === href ||
@@ -27,10 +27,13 @@ const ResumeSidebarItem = ({ icon, label, href }: ResumeSidebarItemProps) => {
 
     return (
         <Button
-        onClick={onClick}
-        variant={"ghost"}
-        size={"lg"}
-        className={cn("w-full rounded-[2px] justify-start", isActive && "bg-secondary/30")}
+            onClick={onClick}
+            variant={"ghost"}
+            size={"lg"}
+            className={cn(
+                "w-full  justify-start rounded-[2px] ",
+                isActive && "bg-secondary/30"
+            )}
         >
             {icon}
             {label}

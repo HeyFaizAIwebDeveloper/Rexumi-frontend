@@ -69,7 +69,7 @@ const ResumeDropdownMenu: React.FC<ResumeDropdownMenuProps> = ({
                             <FolderOpen size={20} />
                             Open
                         </DropdownMenuItem>
-                        <DropdownMenuItem
+                        {/* <DropdownMenuItem
                             onClick={onRename}
                             className="rounded-[2px]"
                         >
@@ -82,7 +82,7 @@ const ResumeDropdownMenu: React.FC<ResumeDropdownMenuProps> = ({
                         >
                             <Cards size={20} />
                             Duplicate
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
