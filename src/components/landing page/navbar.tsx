@@ -13,7 +13,7 @@ export default function Navbar() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="flex items-center justify-between p-6"
+            className=" w-full flex items-center justify-between p-6"
         >
             <Link href="/" className="text-xl font-semibold">
                 Reximu

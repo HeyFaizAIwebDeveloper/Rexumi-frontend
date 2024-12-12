@@ -9,7 +9,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
-
 const faqs = [
   {
     question: 'How does the AI-powered resume builder work?',
@@ -26,27 +25,36 @@ const faqs = [
   {
     question: 'Is my data secure?',
     answer: 'We take data security very seriously. All your information is encrypted and stored securely. We never share your personal data with third parties.',
-  },
+  }
 ]
 
 export default function FaqSection() {
   const ref = useRef(null)
-  const isInView = useInView( ref, { once: false, amount: 0.2 })
+  const isInView = useInView(ref, { once: false, amount: 0.2 })
   const [openItem, setOpenItem] = useState<string | undefined>(undefined);
+
   return (
-    <section id="faq" className=" h-screen flex  flex-col justify-center items-center mx-auto px-4" ref={ref}>
+    <section 
+      id="faq" 
+      className="py-12 md:py-20 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center"
+      ref={ref}
+    >
       <motion.h2 
-        className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-8"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
+                   font-bold text-center 
+                   mb-6 md:mb-10 
+                   max-w-4xl mx-auto"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
       >
         Frequently Asked Questions
       </motion.h2>
+
       <Accordion 
         type="single" 
         collapsible 
-        className=" w-[764px]"
+        className="w-full max-w-3xl mx-auto"
         value={openItem}
         onValueChange={setOpenItem}
       >
@@ -57,13 +65,25 @@ export default function FaqSection() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger className=" transition-colors text-xl">
+            <AccordionItem 
+              value={`item-${index}`} 
+              className="border-b border-border/30 last:border-b-0"
+            >
+              <AccordionTrigger 
+                className="text-base sm:text-lg md:text-xl 
+                           py-3 sm:py-4 
+                           hover:text-primary 
+                           transition-colors"
+              >
                 {faq.question}
               </AccordionTrigger>
               <AnimatePresence>
                 {openItem === `item-${index}` && (
-                  <AccordionContent>
+                  <AccordionContent 
+                    className="text-sm sm:text-base 
+                               text-muted-foreground 
+                               pb-4 sm:pb-6"
+                  >
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
@@ -82,4 +102,3 @@ export default function FaqSection() {
     </section>
   )
 }
-

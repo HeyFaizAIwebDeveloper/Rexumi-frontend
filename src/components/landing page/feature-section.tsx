@@ -54,21 +54,25 @@ const item = {
 
 export default function FeaturesSection() {
     return (
-        <section className="py-20 px-4 sm:px-6 lg:px-8  ">
-            <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-8">
-                        Rich in features, not in pricing.
+        <section className="py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto max-w-7xl">
+                {/* Heading */}
+                <div className="text-center mb-10 md:mb-16">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6">
+                        Rich in features, 
+                        <br className="hidden sm:block" /> 
+                        not in pricing
                     </h2>
-                    <p className="text-gray-200 text-lg mb-12 max-w-xl mx-auto">
-                        Craft professional resumes with AI-powered tools.
-                        Customize, optimize, and stand out—all in one
+                    <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-8 md:mb-12 max-w-2xl mx-auto">
+                        Craft professional resumes with AI-powered tools. 
+                        Customize, optimize, and stand out—all in one 
                         intelligent platform designed for modern professionals.
                     </p>
                 </div>
 
+                {/* Features Grid */}
                 <motion.div
-                    className="flex justify-center items-center flex-wrap gap-4"
+                    className="flex flex-wrap justify-center gap-3 sm:gap-4"
                     variants={container}
                     initial="hidden"
                     animate="show"
@@ -77,10 +81,22 @@ export default function FeaturesSection() {
                         <motion.div
                             key={index}
                             variants={item}
-                            className="flex w-fit  hover:cursor-pointer duration-500 ease-in-out  items-center gap-3 py-2.5 px-4 bg-secondary/30 rounded-[2px]  hover:bg-white hover:text-black transition-shadow"
+                            className="flex items-center 
+                                       w-[calc(50%-0.5rem)] sm:w-auto
+                                       sm:flex-none
+                                       gap-2 py-2.5 px-4 
+                                       bg-secondary/30 
+                                       rounded-md 
+                                       hover:bg-white/10 
+                                       transition-colors 
+                                       duration-300 
+                                       cursor-pointer 
+                                       text-center"
                         >
-                            <feature.icon className="w-5 h-5" />
-                            <span className="text-sm">{feature.text}</span>
+                            <feature.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <span className="text-xs sm:text-sm truncate">
+                                {feature.text}
+                            </span>
                         </motion.div>
                     ))}
                 </motion.div>

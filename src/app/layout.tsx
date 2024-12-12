@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cn(inter.className, "bg-black text-white")}>
+            <body className={cn(inter.className, "w-full h-full bg-black text-white")}>
                 <ResumeProvider>{children}</ResumeProvider>
             </body>
         </html>

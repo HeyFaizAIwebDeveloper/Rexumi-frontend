@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   return (
-    <main className={cn("flex flex-col md:px-10  px-5 min-h-screen ")}>
+    <main className={cn(" max-w-screen-2xl w-full flex flex-col md:px-10  px-5 min-h-screen ")}>
             <Navbar />
             <HeroSection />
             <FeaturesSection />
