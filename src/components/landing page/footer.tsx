@@ -2,22 +2,23 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className=" py-4">
+        <footer className=" py-4 border-t border-white/10 ">
             <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-sm mb-4 md:mb-0">
-                        © 2023 AI Resume Builder. All rights reserved.
+                <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+                    <p className="text-sm text-center md:text-left w-full md:w-auto">
+                        © {new Date().getFullYear()} AI Resume Builder. All
+                        rights reserved.
                     </p>
-                    <div className="space-x-4">
+                    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
                         <Link
                             href="/terms"
-                            className="text-sm hover:text-gray-300 transition-colors"
+                            className="text-sm  hover:text-white/80 transition-colors text-center w-full md:w-auto"
                         >
                             Terms and Conditions
                         </Link>
                         <Link
                             href="/privacy"
-                            className="text-sm hover:text-gray-300 transition-colors"
+                            className="text-sm  hover:text-white/80 transition-colors text-center w-full md:w-auto"
                         >
                             Privacy Policy
                         </Link>
