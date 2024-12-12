@@ -3,6 +3,7 @@ import ResumeSidebarItem from "./resume-sidebar-item";
 import { ReadCvLogo, FadersHorizontal } from "@phosphor-icons/react";
 import ResumeLogo from "./resume-logo";
 import Link from "next/link";
+import { LogoutAlert } from "./resume-logout-alert";
 
 export const SidebarRoutes = [
     {
@@ -37,16 +38,24 @@ const ResumeSidebarRoutes = () => {
                 </div>
             </div>
 
-            <div className="p-6 text-sm text-muted-foreground">
-                <div>Licensed under MIT</div>
-                <div>By the community, for the community.</div>
-                <div className="mt-2">
-                    A passion project by{" "}
-                    <Link href="#" className="underline hover:text-foreground">
-                   Faiz Khan
-                    </Link>
+            <div className="p-6 text-sm text-muted-foreground space-y-5">
+                <div>
+                    <LogoutAlert/>
                 </div>
-                <div className="mt-4">Reactive Resume v4.1.8</div>
+                <div>
+                    <div>Licensed under MIT</div>
+                    <div>By the community, for the community.</div>
+                    <div className="mt-2">
+                        A passion project by{" "}
+                        <Link
+                            href="#"
+                            className="underline hover:text-foreground"
+                        >
+                            Faiz Khan
+                        </Link>
+                    </div>
+                    <div className="mt-4">Reactive Resume v4.1.8</div>
+                </div>
             </div>
         </div>
     );
