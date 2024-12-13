@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ResumeProvider } from "@/contexts/ResumeContext";
 import { Toaster } from "@/components/ui/toaster";
+import { AtsScoreProvider } from "@/contexts/AtsScoreContex";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +27,10 @@ export default function RootLayout({
                 )}
             >
                 <ResumeProvider>
-                    {children}
-                    <Toaster />
+                    <AtsScoreProvider>
+                        {children}
+                        <Toaster />
+                    </AtsScoreProvider>
                 </ResumeProvider>
             </body>
         </html>

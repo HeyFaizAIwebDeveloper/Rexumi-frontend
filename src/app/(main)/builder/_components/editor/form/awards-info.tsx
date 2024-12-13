@@ -55,35 +55,6 @@ function AwardsForm() {
         },
     });
 
-    const saveResumeData = async (updatedAward: AwardFormValues) => {
-        try {
-            // Prepare the full resume data object
-            const dataToSave = {
-                ...resumeData,
-                awards: updatedAward,
-            } as unknown as ResumeFromValues;
-
-            // Use the new API function to update resume data
-            const updatedData = await updateResumeData(resumeId, dataToSave);
-
-            // Update the context with the returned data
-            setResumeData(updatedData);
-
-            toast({
-                title: "Success",
-                description: "Awards updated successfully",
-            });
-        } catch (error: any) {
-            toast({
-                title: "Error",
-                description: error.message,
-                variant: "destructive",
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
-
     const handleEdit = (index: number) => {
         const AwardsToEdit = resumeData?.awards[index];
         if (AwardsToEdit) {

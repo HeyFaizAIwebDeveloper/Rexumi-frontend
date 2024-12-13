@@ -31,6 +31,7 @@ export const LogoutAlert = () => {
                     title: 'See you again',
                     description: response.message,
                 });
+                router.refresh();
                 router.push("/login");
             } else {
                 toast({

@@ -16,7 +16,7 @@ interface FormDialogProps {
 const FormDialog: React.FC<FormDialogProps> = ({ open, setOpen, index, form, onSubmit, children }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-[600px] dark:border-secondary dark:bg-black">
+      <DialogContent className="max-w-[600px] border-secondary bg-black">
         <DialogHeader>
           <DialogTitle>
             <div className="flex items-center space-x-4">

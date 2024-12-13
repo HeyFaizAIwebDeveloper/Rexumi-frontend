@@ -93,14 +93,14 @@ export function ResumeCreateDialog({ children }: ResumeCreateDialogProps) {
                     <DialogTitle>
                         <div className="flex items-center space-x-4">
                             <div className="flex size-5 items-center justify-center">
-                                <Plus size={80} weight="thin" />
+                                <Plus size={80} weight="light" />
                             </div>
                             <h3 className="w-[220px] text-base truncate font-medium lg:w-[320px]">
                                 Create a new resume
                             </h3>
                         </div>
                     </DialogTitle>
-                    <DialogDescription className="text-sm font-thin">
+                    <DialogDescription className="text-sm ">
                         Start building your resume by giving it a name.
                     </DialogDescription>
                 </DialogHeader>
@@ -141,7 +141,7 @@ export function ResumeCreateDialog({ children }: ResumeCreateDialogProps) {
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                    <FormDescription className="text-xs font-thin">
+                                    <FormDescription className="text-xs font-light">
                                         Tip: You can name the resume referring
                                         to the position you are applying for.
                                     </FormDescription>

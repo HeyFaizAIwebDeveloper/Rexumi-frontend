@@ -62,13 +62,13 @@ const ResumeGridLayout = ({ resume }: ResumeLayoutProps) => {
                     >
                         <div className="relative w-full h-72 lg:w-52  flex flex-col justify-end p-4">
                             <div className="absolute inset-0 flex justify-center items-center">
-                                <Plus size={80} weight="thin" />
+                                <Plus size={80} weight="light" />
                             </div>
                             <div className=" select-none">
                                 <h2 className="text-base">
                                     Create a new Resume
                                 </h2>
-                                <p className="text-xs  font-thin text-white/50">
+                                <p className="text-xs  font-light text-white/50">
                                     start building from scratch
                                 </p>
                             </div>
@@ -89,7 +89,7 @@ const ResumeGridLayout = ({ resume }: ResumeLayoutProps) => {
                               </div>
                           </div>
                       ))
-                    : resume.map((res: any, index: number) => (
+                    : resume?.map((res: any, index: number) => (
                           <MagicCard
                               key={index}
                               className="h-72 w-full flex justify-end items-center rounded-none cursor-pointer border-none flex-col shadow-2xl whitespace-nowrap text-4xl relative"
@@ -113,7 +113,7 @@ const ResumeGridLayout = ({ resume }: ResumeLayoutProps) => {
                                       <h2 className="text-base text-ellipsis">
                                           {res.name}
                                       </h2>
-                                      <p className="text-xs font-thin text-white/50">
+                                      <p className="text-xs font-light text-white/50">
                                           Last updated{" "}
                                           {moment(res.updatedAt).fromNow()}
                                       </p>
@@ -158,7 +158,7 @@ const ResumeListLayout = ({ resume }: ResumeLayoutProps) => {
                             <div className="flex items-center space-x-4">
                                 {/* Icon  */}
                                 <div className="flex size-5 items-center justify-center">
-                                    <Plus size={80} weight="thin" />
+                                    <Plus size={80} weight="light" />
                                 </div>
                                 <h2 className="w-[220px] truncate font-medium lg:w-[320px]">
                                     Create a new resume
@@ -175,7 +175,7 @@ const ResumeListLayout = ({ resume }: ResumeLayoutProps) => {
                     ? Array.from({ length: 4 }).map((_, index) => (
                           <Skeleton key={index} className="w-full h-12 p-4 rounded-md" />
                       ))
-                    : resume.map((res: any) => (
+                    : resume?.map((res: any) => (
                           <div
                               key={res._id} // Use the unique _id as the key
                               className="flex cursor-pointer items-center rounded p-4 transition-colors hover:bg-secondary/30"

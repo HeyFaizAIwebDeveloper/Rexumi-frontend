@@ -21,11 +21,11 @@ export default function Navbar() {
 
             <div className=" flex justify-between items-center gap-4">
                 <Button variant={"ghost"} >
-                    <Link href="/login">Log in</Link>
+                    <Link href="/login" prefetch>Log in</Link>
                 </Button>
 
                 <Button variant={"default"}>
-                    <Link href="/signup">Sign up</Link>
+                    <Link href="/register" prefetch>Sign up</Link>
                 </Button>
             </div>
         </motion.nav>

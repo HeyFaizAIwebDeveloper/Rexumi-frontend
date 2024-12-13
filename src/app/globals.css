@@ -50,6 +50,36 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+
+    /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 9999px; /* Full rounding */
+    background: #f3f4f6; /* gray-100 */
+    margin: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 9999px; /* Full rounding */
+    background: #d1d5db; /* gray-300 */
+    margin: 5px;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-track {
+        background: #000000; /* black */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #f3f4f6; /* secondary color */
+    }
+}
+
     /* --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;

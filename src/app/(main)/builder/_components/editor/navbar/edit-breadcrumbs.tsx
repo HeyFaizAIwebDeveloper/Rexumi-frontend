@@ -22,9 +22,9 @@ export default function Breadcrumbs({
     return (
         <div className="relative flex justify-center overflow-hidden">
             {/* Left Gradient */}
-            <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent dark:from-black dark:to-transparent z-10" />
+            <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black to-transparent z-10" />
             {/* Right Gradient */}
-            <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent dark:from-black dark:to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-blackto-transparent z-10" />
 
             {/* Scrollable Breadcrumb Container */}
             <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide">

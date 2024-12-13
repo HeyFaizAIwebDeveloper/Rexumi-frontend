@@ -18,19 +18,22 @@ export default function ResumeDashboard() {
     const router = useRouter();
 
     useEffect(() => {
-        const fetchResumes = async () => {
-            try {
-                setIsLoading(true);
-                await getResumes();
-            } catch (error: any) {
-                // Handle error if needed
-            } finally {
-                setIsLoading(false);
-            }
-        };
-    
-        fetchResumes();
-    }, [getResumes]);
+        const storedResumes = localStorage.getItem("resumes");
+        if (!storedResumes || JSON.parse(storedResumes).length === 0) {
+            const fetchResumes = async () => {
+                try {
+                    setIsLoading(true);
+                    await getResumes();
+                } catch (error: any) {
+                    // Handle error if needed
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            fetchResumes();
+        }
+    }, [getResumes, resumes]);
 
     return (
         <>

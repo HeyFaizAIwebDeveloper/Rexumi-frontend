@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+    createContext,
+    useState,
+    useContext,
+    ReactNode,
+    useEffect,
+} from "react";
 import { ResumeFromValues } from "@/lib/validations/resume";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/utils/axios";
@@ -32,11 +38,50 @@ interface ResumeContextType {
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
-export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ResumeProvider: React.FC<{ children: ReactNode }> = ({
+    children,
+}) => {
     const { toast } = useToast();
     const router = useRouter();
-    const [resumes, setResumes] = useState<ResumeMetadata[]>([]);
-    const [resumeData, setResumeData] = useState<ResumeDataType | null>(null);
+    const [resumes, setResumes] = useState<ResumeMetadata[]>(() => {
+        // Initialize resumes from localStorage or empty array
+        try {
+            const storedResumes = localStorage.getItem("resumes");
+            return storedResumes ? JSON.parse(storedResumes) : [];
+        } catch (error) {
+            // If parsing fails, return an empty array
+            console.error("Error parsing stored resumes:", error);
+            return [];
+        }
+    });
+    const [resumeData, setResumeData] = useState<ResumeDataType | null>(() => {
+        // Initialize resumeData from localStorage or null
+        try {
+            const storedResumeData = localStorage.getItem("currentResumeData");
+            return storedResumeData ? JSON.parse(storedResumeData) : null;
+        } catch (error) {
+            // If parsing fails, return null
+            console.error("Error parsing stored resume data:", error);
+            return null;
+        }
+    });
+
+    // Update localStorage when resumes change
+    useEffect(() => {
+        localStorage.setItem("resumes", JSON.stringify(resumes));
+    }, [resumes]);
+
+    // Update localStorage when resumeData changes
+    useEffect(() => {
+        if (resumeData) {
+            localStorage.setItem(
+                "currentResumeData",
+                JSON.stringify(resumeData)
+            );
+        } else {
+            localStorage.removeItem("currentResumeData");
+        }
+    }, [resumeData]);
 
     const handleApiError = (error: any, defaultMessage: string) => {
         toast({
@@ -44,6 +89,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             description: error.response?.data?.message || defaultMessage,
             variant: "destructive",
         });
+        // Optionally uncomment if you want to redirect on error
         // router.push("/")
 
         throw error;
@@ -52,7 +98,10 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const getResumes = async () => {
         try {
             const response = await api.get("/resume/getresumes");
-            setResumes(response.data.data);
+            const fetchedResumes = response.data.data;
+            setResumes(fetchedResumes);
+            // Also update localStorage
+            localStorage.setItem("resumes", JSON.stringify(fetchedResumes));
         } catch (error) {
             handleApiError(error, "Failed to fetch resumes");
         }
@@ -63,7 +112,6 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             const response = await api.get(`/resume/${id}`);
             return response.data.data;
         } catch (error) {
-
             handleApiError(error, "Failed to fetch resume data");
         }
     };
@@ -71,7 +119,13 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const getResumeData = async (id: string) => {
         try {
             const response = await api.get(`/resume/getdata/${id}`);
-            setResumeData(response.data.data);
+            const fetchedResumeData = response.data.data;
+            setResumeData(fetchedResumeData);
+            // Also update localStorage
+            localStorage.setItem(
+                "currentResumeData",
+                JSON.stringify(fetchedResumeData)
+            );
         } catch (error) {
             handleApiError(error, "Failed to fetch resume data");
         }
@@ -81,7 +135,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         try {
             const response = await api.post("/resume/new", { name });
             const newResume = response.data.data;
-            setResumeData(null)
+            setResumeData(null);
             setResumes((prev) => [...prev, newResume]);
             return newResume;
         } catch (error) {
@@ -92,8 +146,11 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const deleteResume = async (id: string) => {
         try {
             await api.delete(`/resume/delete/${id}`);
-            setResumes((prev) => prev.filter((resume) => resume._id !== id));
-            setResumeData(null)
+            const updatedResumes = resumes.filter(
+                (resume) => resume._id !== id
+            );
+            setResumes(updatedResumes);
+            setResumeData(null);
             toast({
                 title: "Success",
                 description: "Resume deleted successfully",
@@ -124,7 +181,9 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 export const useResumeContext = () => {
     const context = useContext(ResumeContext);
     if (context === undefined) {
-        throw new Error("useResumeContext must be used within a ResumeProvider");
+        throw new Error(
+            "useResumeContext must be used within a ResumeProvider"
+        );
     }
     return context;
 };

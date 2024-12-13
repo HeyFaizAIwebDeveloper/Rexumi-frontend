@@ -17,8 +17,7 @@ export default function BuilderPage({ params }: { params: { id: string } }) {
     const [resumeName, setResumeName] = useState("");
     const { toast } = useToast();
 
-    const { resumeData, setResumeData, getResumeData, getResumeById } =
-        useResumeContext();
+    const { resumeData, getResumeData, getResumeById } = useResumeContext();
 
     // Unwrap params
     const resumeId = params.id;

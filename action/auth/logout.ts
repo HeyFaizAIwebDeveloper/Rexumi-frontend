@@ -6,6 +6,14 @@ export const handleLogout = async () => {
         const response = await api.post("/auth/logout");
         if (response.status == 200) {
             deleteToken();
+            localStorage.removeItem('currentResumeData');
+            localStorage.removeItem('atsUsage');
+            localStorage.removeItem('resumes');
+            for (const key in localStorage) {
+                if (key.includes('atsScore_')) {
+                    localStorage.removeItem(key);
+                }
+            }
             return response.data;
         }
     } catch (error: any) {
