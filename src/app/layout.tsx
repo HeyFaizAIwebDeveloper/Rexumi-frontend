@@ -10,31 +10,51 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Rexumi - AI Resume Builder | Optimize Your Resume with AI Scoring",
-    description: "Boost your job prospects with our AI-powered resume builder. Get instant ATS-friendly resume scoring, professional feedback, and optimization tips.",
-    keywords: "AI resume builder, resume scoring, ATS optimization, job application, career improvement",
+    description:
+        "Boost your job prospects with our AI-powered resume builder. Get instant ATS-friendly resume scoring, professional feedback, and optimization tips.",
+    icons: {
+        icon: [
+            {
+                media: `(prefers-color-scheme: light)`,
+                url: "/favicon-light.png",
+                href: "/favicon-light.png",
+            },
+            {
+                media: `(prefers-color-scheme: dark)`,
+                url: "/favicon-dark.png",
+                href: "/favicon-dark.png",
+            },
+        ],
+    },
+    keywords:
+        "AI resume builder, resume scoring, ATS optimization, job application, career improvement",
     openGraph: {
         title: "AI Resume Builder - Boost Your Job Prospects",
-        description: "Transform your resume with AI-driven insights and professional scoring.",
+        description:
+            "Transform your resume with AI-driven insights and professional scoring.",
         type: "website",
         url: "https://rexumi.vercel.app",
         images: [
             {
-                url: "https://res.cloudinary.com/dmsis7gbp/image/upload/v1734164674/logo_gh1ywh.svg",
+                url: "https://res.cloudinary.com/dmsis7gbp/image/upload/v1734200946/Black_White_illustrative_Sports_football_club_logo_scjz74.jpg",
                 width: 1200,
                 height: 630,
-                alt: "AI Resume Builder - Optimize Your Resume"
-            }
-        ]
+                alt: "AI Resume Builder - Optimize Your Resume",
+            },
+        ],
     },
     twitter: {
         card: "summary_large_image",
         title: "AI Resume Builder | Professional Resume Scoring",
-        description: "Get AI-powered resume insights and boost your job application success.",
-        images: ["https://res.cloudinary.com/dmsis7gbp/image/upload/v1734164674/logo_gh1ywh.svg"]
+        description:
+            "Get AI-powered resume insights and boost your job application success.",
+        images: [
+            "https://res.cloudinary.com/dmsis7gbp/image/upload/v1734200946/Black_White_illustrative_Sports_football_club_logo_scjz74.jpg",
+        ],
     },
     robots: "index, follow",
     alternates: {
-        canonical: "https://rexumi.vercel.app"
+        canonical: "https://rexumi.vercel.app",
     },
 };
 
