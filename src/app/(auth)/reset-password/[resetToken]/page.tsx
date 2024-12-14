@@ -44,6 +44,7 @@ export default function ResetPasswordPage() {
         const verifyToken = async () => {
             const response = await VerifyResetToken(Token);
             if (!response.data.resetPasswordToken) {
+                console.log("ek number");
                 return router.push("/login");
             }
 
