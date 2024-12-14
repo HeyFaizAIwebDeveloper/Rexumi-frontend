@@ -16,9 +16,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {
-    GithubLogo,
-    GoogleLogo,
-    ArrowRight,
     CircleNotch,
     ArrowLeft,
 } from "@phosphor-icons/react";

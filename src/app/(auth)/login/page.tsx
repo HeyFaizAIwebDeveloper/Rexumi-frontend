@@ -47,6 +47,7 @@ export default function LoginPage() {
                     variant: "success",
                     title: response.message,
                 });
+                router.refresh();
                 router.push("/dashboard/resumes");
             } else {
                 toast({
@@ -75,6 +76,7 @@ export default function LoginPage() {
     };
 
     const onclick = () => {
+        router.refresh();
         router.push("/");
     };
 
