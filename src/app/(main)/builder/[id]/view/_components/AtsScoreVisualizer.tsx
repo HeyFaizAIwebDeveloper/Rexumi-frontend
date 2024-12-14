@@ -61,16 +61,16 @@ const AtsScoreVisualizer = () => {
     const params = useParams();
     const resumeId = params.id as string;
     const { toast } = useToast();
-    const { getAtsScore, checkAtsScore } = useAtsScore();
+    const { getAtsScore, checkAtsScore, getAtsUsage } = useAtsScore();
     const [atsScoreData, setAtsScoreData] = useState<AtsScoreData>();
-    // const [atsUsage, setAtsUsage] = useState<AtsUsage>();
+    const [atsUsage, setAtsUsage] = useState<AtsUsage>();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // const fetchUsage = async () => {
-        //     const usage = await getAtsUsage();
-        //     setAtsUsage(usage);
-        // };
+        const fetchUsage = async () => {
+            const usage = await getAtsUsage();
+            setAtsUsage(usage);
+        };
         const storedScore = localStorage.getItem(`atsScore_${resumeId}`);
 
         if (storedScore) {
@@ -83,26 +83,26 @@ const AtsScoreVisualizer = () => {
             };
             if (resumeId) {
                 fetchAtsScore();
-                // fetchUsage();
+                fetchUsage();
             }
         }
     }, [resumeId, getAtsScore]);
 
     const handleCheckAtsScore = async (id: string) => {
-        // if (atsUsage && atsUsage.count >= 5) {
-        //     return toast({
-        //         variant: "destructive",
-        //         title: "You have reached the maximum number of checks.",
-        //         description: "Please contact admin to increase your limit.",
-        //     });
-        // }
+        if (atsUsage && atsUsage.count >= 5) {
+            return toast({
+                variant: "destructive",
+                title: "You have reached the maximum number of checks.",
+                description: "Please contact admin to increase your limit.",
+            });
+        }
         setLoading(true);
         try {
             const score = await checkAtsScore(id);
             if (score) {
                 setAtsScoreData(score.data as unknown as AtsScoreData);
-                // const usage = await getAtsUsage();
-                // setAtsUsage(usage);
+                const usage = await getAtsUsage();
+                setAtsUsage(usage);
             } else {
                 toast({
                     variant: "destructive",

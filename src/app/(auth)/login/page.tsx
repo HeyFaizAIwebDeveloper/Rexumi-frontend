@@ -75,8 +75,8 @@ export default function LoginPage() {
     };
 
     const onclick = () => {
-        router.push('/');
-    }
+        router.push("/");
+    };
 
     return (
         <div className="min-h-screen w-full flex flex-col lg:flex-row">
@@ -84,7 +84,7 @@ export default function LoginPage() {
             <div className="w-full lg:w-[480px] dark:bg-black p-4 sm:p-6 lg:p-10 flex flex-col justify-center">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8 sm:mb-12 lg:mb-20">
-                    <div 
+                    <div
                         onClick={onclick}
                         className="flex items-center gap-2 cursor-pointer"
                     >
@@ -137,9 +137,9 @@ export default function LoginPage() {
                                                 className="placeholder:text-xs sm:placeholder:text-sm placeholder:font-light placeholder:text-gray-400"
                                             />
                                         </FormControl>
-                                        <p className="text-xs text-gray-400">
+                                        {/* <p className="text-xs text-gray-400">
                                             You can also enter your username.
-                                        </p>
+                                        </p> */}
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -154,7 +154,11 @@ export default function LoginPage() {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                type={showPassword ? "text" : "password"}
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 onKeyDown={handleKeyDown}
                                                 onKeyUp={handleKeyUp}
                                                 {...field}
@@ -165,13 +169,14 @@ export default function LoginPage() {
                                             <kbd className="px-1 sm:px-2 font-medium py-0.5 sm:py-1 text-xs">
                                                 Ctrl
                                             </kbd>{" "}
-                                            to display your password temporarily.
+                                            to display your password
+                                            temporarily.
                                         </p>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            
+
                             {/* Actions */}
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                                 <Button
@@ -188,12 +193,14 @@ export default function LoginPage() {
                                         "Sign In"
                                     )}
                                 </Button>
-                                <Button 
-                                    variant="link" 
-                                    className="text-xs sm:text-sm"
-                                >
-                                    Forgot Password?
-                                </Button>
+                                <Link href={"/forgot-password"} prefetch>
+                                    <Button
+                                        variant="link"
+                                        className="text-xs sm:text-sm"
+                                    >
+                                        Forgot Password?
+                                    </Button>
+                                </Link>
                             </div>
                         </form>
                     </Form>
@@ -217,13 +224,15 @@ export default function LoginPage() {
                                 className="rounded-[2px] text-white bg-[#222222] hover:bg-[#222222d1] cursor-not-allowed flex items-center gap-2"
                             >
                                 <GithubLogo size={24} />
-                                <span className="text-xs sm:text-sm">GitHub</span>
+                                <span className="text-xs sm:text-sm">
+                                    GitHub
+                                </span>
                             </Button>
-                            <Button 
-                                className="rounded-[2px] text-white hover:bg-[#4286f4d1] bg-[#4285F4] cursor-not-allowed flex items-center gap-2"
-                            >
+                            <Button className="rounded-[2px] text-white hover:bg-[#4286f4d1] bg-[#4285F4] cursor-not-allowed flex items-center gap-2">
                                 <GoogleLogo size={24} />
-                                <span className="text-xs sm:text-sm">Google</span>
+                                <span className="text-xs sm:text-sm">
+                                    Google
+                                </span>
                             </Button>
                         </div>
                     </div>
