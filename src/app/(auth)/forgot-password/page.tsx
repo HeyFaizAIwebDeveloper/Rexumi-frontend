@@ -3,8 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// UI Components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,21 +19,25 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    CircleNotch,
-    ArrowLeft,
-} from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 
-import {
-    ForgotPasswordFormValues,
-    forgotPasswordSchema,
-} from "@/lib/validations/auth";
+// Icons
+import { CircleNotch, ArrowLeft } from "@phosphor-icons/react";
+
+// Hooks
+import { useToast } from "@/hooks/use-toast";
 import { ForgotPassword } from "../../../../action/auth/forgot-password";
 
-const ForgotPasswordPage = () => {
-    const [showPassword, setShowPassword] = useState(false);
+// Actions
+
+
+// Validation Schema
+const forgotPasswordSchema = z.object({
+    email: z.string().email("Please enter a valid email address")
+});
+
+type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
+
+export default function ForgotPasswordPage() {
     const [sending, setSending] = useState(false);
     const router = useRouter();
     const { toast } = useToast();
@@ -41,64 +49,64 @@ const ForgotPasswordPage = () => {
         },
     });
 
-    async function onSubmit(values: ForgotPasswordFormValues) {
+    const handleSubmit = async (values: ForgotPasswordFormValues) => {
         try {
             const response = await ForgotPassword(values);
+            
             if (response.success) {
+                setSending(true);
                 toast({
                     variant: "success",
-                    title: response.message,
+                    title: "Password Reset",
+                    description: response.message
                 });
-
-                setSending(true);
             } else {
                 toast({
                     variant: "destructive",
-                    title: response.error,
+                    title: "Error",
+                    description: response.error
                 });
             }
         } catch (error) {
             toast({
                 variant: "destructive",
-                title: "An unexpected error occurred",
+                title: "Unexpected Error",
+                description: "An unexpected error occurred. Please try again."
             });
         }
-    }
+    };
 
-    const onclick = () => {
-        router.refresh();
+    const handleBackToHome = () => {
         router.push("/");
     };
 
     return (
         <div className="min-h-screen w-full flex flex-col lg:flex-row">
-            {/* Left Column - Login Form */}
+            {/* Left Column */}
             <div className="w-full lg:w-[480px] bg-black p-4 sm:p-6 lg:p-10 flex flex-col justify-center">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4 sm:mb-8 lg:mb-10 select-none">
-                    <div
-                        onClick={onclick}
+                    <div 
+                        onClick={handleBackToHome} 
                         className="flex items-center gap-2 cursor-pointer"
                     >
-                        <div className="w-6 h-6 sm:w-8 sm:h-8">
-                            <Image
-                                src={"/logo.svg"}
-                                alt="Rexumi"
-                                height={30}
-                                width={30}
-                                className="bg-center bg-cover"
-                            />
-                        </div>
+                        <Image
+                            src="/logo.svg"
+                            alt="Rexumi"
+                            width={30}
+                            height={30}
+                            className="bg-center bg-cover"
+                        />
                         <h1 className="text-lg sm:text-xl">Rexumi</h1>
                     </div>
                 </div>
 
                 {sending ? (
-                    <div className="w-full max-w-md mx-auto space-y-5 select-none ">
+                    <div className="w-full max-w-md mx-auto space-y-5 select-none">
                         <h1 className="text-xl sm:text-2xl font-semibold mb-2">
                             You've got mail!
                         </h1>
-                        <p className="flex flex-wrap rounded-[2px] gap-1.5  items-center p-4 bg-emerald-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
+                        <p className="rounded-[2px] p-4 bg-emerald-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
                             A password reset link should have been sent to your
                             inbox, if an account existed with the email you
                             provided.
@@ -109,15 +117,14 @@ const ForgotPasswordPage = () => {
                         <h1 className="text-xl sm:text-2xl font-semibold mb-2">
                             Forgot your password?
                         </h1>
-                        <p className="flex flex-wrap gap-1.5 items-center text-gray-400 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
+                        <p className="text-gray-400 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
                             Enter your email address and we will send you a link
                             to reset your password if the account exists.
                         </p>
 
-                        {/* Form */}
                         <Form {...form}>
-                            <form
-                                onSubmit={form.handleSubmit(onSubmit)}
+                            <form 
+                                onSubmit={form.handleSubmit(handleSubmit)}
                                 className="space-y-4 sm:space-y-6"
                             >
                                 <FormField
@@ -125,14 +132,12 @@ const ForgotPasswordPage = () => {
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-xs sm:text-sm">
-                                                Email
-                                            </FormLabel>
+                                            <FormLabel>Email</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     placeholder="john.doe@example.com"
                                                     {...field}
-                                                    className="placeholder:text-xs sm:placeholder:text-sm placeholder:font-light placeholder:text-gray-400"
+                                                    className="placeholder:text-gray-400"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -140,21 +145,17 @@ const ForgotPasswordPage = () => {
                                     )}
                                 />
 
-                                {/* Actions */}
-                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 select-none">
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                                     <Link href="/login" prefetch>
-                                        <Button
-                                            variant="link"
-                                            className="text-xs sm:text-sm"
-                                        >
+                                        <Button variant="link">
                                             <ArrowLeft size={24} />
                                             Back
                                         </Button>
                                     </Link>
                                     <Button
                                         type="submit"
-                                        variant="default"
                                         className="w-full rounded-[2px]"
+                                        disabled={form.formState.isSubmitting}
                                     >
                                         {form.formState.isSubmitting ? (
                                             <CircleNotch
@@ -172,7 +173,7 @@ const ForgotPasswordPage = () => {
                 )}
             </div>
 
-            {/* Right Column - Background Image */}
+            {/* Right Column */}
             <div className="hidden lg:block flex-1 relative">
                 <Image
                     src="/bg.jpeg"
@@ -188,6 +189,4 @@ const ForgotPasswordPage = () => {
             </div>
         </div>
     );
-};
-
-export default ForgotPasswordPage;
+}

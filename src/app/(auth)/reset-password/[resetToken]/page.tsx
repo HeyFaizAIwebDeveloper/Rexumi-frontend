@@ -132,8 +132,9 @@ export default function ResetPasswordPage() {
                             Your session has expired
                         </h1>
                         <p className="flex flex-wrap rounded-[2px] gap-1.5  items-center p-4 bg-red-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
-                            A password reset link had expired, please request a
-                            new link
+                            It looks like the reset token you provided is
+                            invalid. Please try restarting the password reset
+                            process again.
                         </p>
 
                         <Button
