@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
     });
 
     const handleSubmit = async (values: ForgotPasswordFormValues) => {
-        console.log(values);
+        console.log("reset values:", values);
         try {
             console.log("hit the forgot password endpoint");
             const response = await ForgotPassword(values);
