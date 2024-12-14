@@ -5,18 +5,24 @@ import {
 import api from "@/utils/axios";
 
 export const ForgotPassword = async (data: ForgotPasswordFormValues) => {
+    console.log(data);
     try {
         // Validate the form data
         const validatedFields = forgotPasswordSchema.safeParse(data);
+        console.log(validatedFields);
+
         if (validatedFields.success) {
             const { email } = validatedFields.data;
 
+            console.log("hit the forgot password endpoint", email);
             const response = await api.post(`/auth/reset-password`, { email });
+
+            console.log("response back", response);
             if (response.status === 200) {
                 return response.data;
             }
         }
-    } catch (error:any) {
+    } catch (error: any) {
         if (error.response && error.response.data) {
             return {
                 error:
