@@ -63,8 +63,7 @@ export default function ForgotPasswordPage() {
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Error",
-                    description: response.error
+                    title: response.error,
                 });
             }
         } catch (error) {

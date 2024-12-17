@@ -94,7 +94,7 @@ export const AtsScoreProvider: React.FC<{ children: ReactNode }> = ({
 
                 return allScores;
             } catch (error: any) {
-                showErrorToast("Error fetching ATS scores", error);
+                // showErrorToast("Error fetching ATS scores", error);
                 return undefined;
             }
         },
@@ -139,19 +139,21 @@ export const AtsScoreProvider: React.FC<{ children: ReactNode }> = ({
 
     const getAtsUsage = useCallback(async (): Promise<AtsUsage | undefined> => {
         try {
-            // First, check local storage
+            // Check local storage for stored usage
             const storedUsage = localStorage.getItem("atsUsage");
+            
             if (storedUsage) {
+                // If a stored usage exists, return the parsed data
                 return JSON.parse(storedUsage);
             }
-
+    
             // Fetch from API if not in local storage
             const response = await api.get(`/ai/ats-usage`);
             const usageData = response.data;
-
-            // Store in local storage
+    
+            // Store the fetched data in local storage
             localStorage.setItem("atsUsage", JSON.stringify(usageData));
-
+    
             return usageData;
         } catch (error: any) {
             showErrorToast("Error fetching ATS usage", error);

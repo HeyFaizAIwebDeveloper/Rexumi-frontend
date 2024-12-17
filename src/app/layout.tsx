@@ -68,7 +68,7 @@ export default function RootLayout({
             <body
                 className={cn(
                     inter.className,
-                    "w-full h-full bg-black text-white"
+                    "max-w-screen-2xl w-full h-full bg-black text-white"
                 )}
             >
                 <ResumeProvider>
