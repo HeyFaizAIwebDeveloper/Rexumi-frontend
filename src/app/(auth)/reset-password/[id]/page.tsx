@@ -24,11 +24,13 @@ import {
 } from "@/lib/validations/auth";
 import { ResetPassword } from "../../../../../action/auth/reset-password";
 import { VerifyResetToken } from "../../../../../action/auth/verify-reset-token";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ResetPasswordPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [tokenExpire, setTokenExpire] = useState(false);
     const [tokenInvaild, setTokenInvaild] = useState(false);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
     const { toast } = useToast();
     const params = useParams();
@@ -44,12 +46,15 @@ export default function ResetPasswordPage() {
     useEffect(() => {
         const verifyToken = async () => {
             const response = await VerifyResetToken(Token);
-            if (!response.data.resetPasswordToken) {
-                setTokenInvaild(true);
+            setLoading(false);
+            if (response.status !== 200) {
+            }
+            if (response.data.tokenInvalid) {
+                return setTokenInvaild(true);
             }
 
-            if (!response.data.resetPasswordExpire) {
-                setTokenExpire(true);
+            if (response.data.tokenExpire) {
+                return setTokenExpire(true);
             }
         };
 
@@ -126,11 +131,49 @@ export default function ResetPasswordPage() {
                         <h1 className="text-lg sm:text-xl">Rexumi</h1>
                     </div>
                 </div>
-                {tokenInvaild ? (
-                    tokenExpire ? (
+
+                {loading ? (
+                    <>
+                        <div className="space-y-4">
+                            {/* Large Rectangular Skeleton */}
+                            <Skeleton className="h-10 w-3/4 rounded-md" />
+
+                            {/* Small Rectangular Skeletons */}
+                            <Skeleton className="h-4 w-1/2 rounded-md" />
+                            <Skeleton className="h-4 w-1/3 rounded-md" />
+
+                            {/* Medium Rectangular Skeleton */}
+                            <Skeleton className="h-20 w-full rounded-md" />
+
+                            {/* Small Rectangular Skeleton at the Bottom */}
+                            <Skeleton className="h-6 w-1/2 rounded-md" />
+                        </div>
+                    </>
+                ) : tokenExpire ? (
+                    <div className="w-full max-w-md mx-auto space-y-5 select-none ">
+                        <h1 className="text-xl sm:text-2xl font-semibold mb-2">
+                            Your session has expired
+                        </h1>
+                        <p className="flex flex-wrap rounded-[2px] gap-1.5  items-center p-4 bg-red-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
+                            It looks like the reset token you provided is
+                            invalid. Please try restarting the password reset
+                            process again.
+                        </p>
+
+                        <Button
+                            onClick={back}
+                            variant="secondary"
+                            className="text-xs sm:text-sm w-full"
+                        >
+                            <ArrowLeft size={24} />
+                            Back
+                        </Button>
+                    </div>
+                ) : tokenInvaild ? (
+                    <>
                         <div className="w-full max-w-md mx-auto space-y-5 select-none ">
                             <h1 className="text-xl sm:text-2xl font-semibold mb-2">
-                                Your session has expired
+                                Your Token is Invaild
                             </h1>
                             <p className="flex flex-wrap rounded-[2px] gap-1.5  items-center p-4 bg-red-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
                                 It looks like the reset token you provided is
@@ -147,7 +190,9 @@ export default function ResetPasswordPage() {
                                 Back
                             </Button>
                         </div>
-                    ) : (
+                    </>
+                ) : (
+                    <>
                         <div className="w-full max-w-md mx-auto">
                             <h1 className="text-xl sm:text-2xl font-semibold mb-2">
                                 Reset your password
@@ -218,26 +263,8 @@ export default function ResetPasswordPage() {
                                 </form>
                             </Form>
                         </div>
-                    )
-                ) : <div className="w-full max-w-md mx-auto space-y-5 select-none ">
-                <h1 className="text-xl sm:text-2xl font-semibold mb-2">
-                    Your Token is Invaild
-                </h1>
-                <p className="flex flex-wrap rounded-[2px] gap-1.5  items-center p-4 bg-red-700 text-xs sm:text-sm mb-6 sm:mb-8 font-light">
-                    It looks like the reset token you provided is
-                    invalid. Please try restarting the password
-                    reset process again.
-                </p>
-
-                <Button
-                    onClick={back}
-                    variant="secondary"
-                    className="text-xs sm:text-sm w-full"
-                >
-                    <ArrowLeft size={24} />
-                    Back
-                </Button>
-            </div>}
+                    </>
+                )}
             </div>
 
             {/* Right Column - Background Image */}
