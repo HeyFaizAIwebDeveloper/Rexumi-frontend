@@ -76,7 +76,7 @@ const ResumeGridLayout = ({ resume }: ResumeLayoutProps) => {
                     </MagicCard>
                 </ResumeCreateDialog>
 
-                {showSkeleton && resume.length === 0
+                {showSkeleton && resume && resume.length === 0
                     ? Array.from({ length: 4 }).map((_, index) => (
                           <div
                               key={index}
@@ -171,7 +171,7 @@ const ResumeListLayout = ({ resume }: ResumeLayoutProps) => {
                     </div>
                 </ResumeCreateDialog>
 
-                {showSkeleton && resume.length === 0
+                {showSkeleton && resume && resume.length === 0
                     ? Array.from({ length: 4 }).map((_, index) => (
                           <Skeleton key={index} className="w-full h-12 p-4 rounded-md" />
                       ))

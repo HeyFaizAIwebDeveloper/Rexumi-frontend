@@ -11,7 +11,7 @@ import api from "./utils/axios";
 
 
 // Step 1: Define route patterns
-const publicRoutes: string[] = ["/login", "/register", "/", "/forgot-password", "/reset-password/:path*"];
+const publicRoutes: string[] = ["/login", "/register", "/", "/forgot-password", "/reset-password/:path*, /verify-email/:path*"];
 const publicApiRoutes: string[] = ["/api/v1/auth/:path*"];
 
 interface JWTCustomPayload extends JWTPayload {

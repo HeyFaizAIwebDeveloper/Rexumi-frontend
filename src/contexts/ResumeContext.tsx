@@ -6,6 +6,7 @@ import React, {
     useContext,
     ReactNode,
     useEffect,
+    useCallback,
 } from "react";
 import { ResumeFromValues } from "@/lib/validations/resume";
 import { useToast } from "@/hooks/use-toast";
@@ -95,7 +96,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({
         throw error;
     };
 
-    const getResumes = async () => {
+    const getResumes = useCallback(async () => {
         try {
             const response = await api.get("/resume/getresumes");
             const fetchedResumes = response.data.data;
@@ -105,7 +106,7 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({
         } catch (error) {
             handleApiError(error, "Failed to fetch resumes");
         }
-    };
+    }, []);
 
     const getResumeById = async (id: string) => {
         try {

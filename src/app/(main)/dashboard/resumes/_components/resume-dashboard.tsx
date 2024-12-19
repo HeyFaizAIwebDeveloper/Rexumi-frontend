@@ -37,17 +37,7 @@ export default function ResumeDashboard() {
 
     return (
         <>
-            <header>
-                <ResumeMobileSidebar />
-            </header>
-            <div className="relative min-h-screen bg-background">
-                {/* Left container (Sidebar) */}
-                <div className=" fixed inset-y-0 z-50 w-80 h-screen hidden md:flex flex-col justify-between">
-                    <ResumeSidebar />
-                </div>
-
-                {/* Right container */}
-                <div className="lg:pl-80">
+            
                     <div className="flex h-14 items-center justify-between pt-6 px-6">
                         <h1 className="lg:text-4xl text-2xl font-semibold lg:ml-0">
                             Resumes
@@ -84,8 +74,7 @@ export default function ResumeDashboard() {
                     ) : (
                         <ResumeListLayout resume={resumes} />
                     )}
-                </div>
-            </div>
+             
         </>
     );
 }

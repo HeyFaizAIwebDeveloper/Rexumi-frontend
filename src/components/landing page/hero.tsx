@@ -6,12 +6,12 @@ import { Button } from "../ui/button";
 import { BorderBeam } from "../ui/border-beam";
 import { CardContainer } from "../ui/3d-card";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/contexts/UserContex";
 
 export default function HeroSection() {
     const router = useRouter();
-    const handleGetStarted = () => {
-        router.push('/dashboard/resumes')
-    }
+    const { isAuthenticated } = useUserContext();
+  
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20 lg:py-24">
@@ -26,7 +26,11 @@ export default function HeroSection() {
                 >
                     <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-3 py-1 text-xs md:text-sm">
                         <span className="text-lg">✨</span>
-                        <span>Introducing Rexumi <br className="sm:hidden block" />  (AI Resume Builder)</span>
+                        <span>
+                            Introducing Rexumi{" "}
+                            <br className="sm:hidden block" /> (AI Resume
+                            Builder)
+                        </span>
                         <span>→</span>
                     </div>
                 </motion.div>
@@ -52,8 +56,9 @@ export default function HeroSection() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                    Transform your career prospects with our cutting-edge AI resume
-                    creation tool. Generate powerful, tailored resumes in seconds.
+                    Transform your career prospects with our cutting-edge AI
+                    resume creation tool. Generate powerful, tailored resumes in
+                    seconds.
                 </motion.p>
 
                 {/* Responsive Call-to-Action Button */}
@@ -63,13 +68,23 @@ export default function HeroSection() {
                     transition={{ duration: 0.5, delay: 0.6 }}
                     className="w-full max-w-md mx-auto mb-8 md:mb-12"
                 >
-                    <Button
-                        variant="default"
-                        size="lg"
-                        onClick={handleGetStarted}
-                    >
-                        Get Started for Free →
-                    </Button>
+                    {isAuthenticated ? (
+                        <Button
+                            variant="default"
+                            size="lg"
+                            onClick={() => router.push("/dashboard/resumes")}
+                        >
+                            Go to Dashboard →
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="default"
+                            size="lg"
+                            onClick={() => router.push("/login")}
+                        >
+                            Get Started for Free →
+                        </Button>
+                    )}
                 </motion.div>
 
                 {/* Responsive Image Container */}
@@ -80,9 +95,11 @@ export default function HeroSection() {
                     className="w-full max-w-6xl mx-auto"
                 >
                     <CardContainer className="relative w-full">
-                        <div className="relative w-full aspect-video 
+                        <div
+                            className="relative w-full aspect-video 
                                         overflow-hidden rounded-lg 
-                                        border shadow-lg">
+                                        border shadow-lg"
+                        >
                             <Image
                                 src="/image.png"
                                 alt="Resume Builder Preview"

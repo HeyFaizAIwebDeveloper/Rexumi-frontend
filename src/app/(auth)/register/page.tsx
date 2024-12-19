@@ -47,7 +47,8 @@ export default function SignupPage() {
                     variant: "success",
                     title: response.message,
                 });
-                router.push("/dashboard/resumes");
+                router.refresh();
+                router.push("/login")
             } else {
                 toast({
                     variant: "destructive",

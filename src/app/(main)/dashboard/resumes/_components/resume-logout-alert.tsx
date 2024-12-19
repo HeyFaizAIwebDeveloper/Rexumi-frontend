@@ -17,7 +17,8 @@ import { cn } from "@/lib/utils";
 import { SignOut } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { handleLogout } from "../../../../../action/auth/logout";
+import { handleLogout } from "../../../../../../action/auth/logout";
+
 
 export const LogoutAlert = () => {
     const router = useRouter();

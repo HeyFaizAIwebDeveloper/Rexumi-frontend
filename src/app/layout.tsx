@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { ResumeProvider } from "@/contexts/ResumeContext";
 import { Toaster } from "@/components/ui/toaster";
 import { AtsScoreProvider } from "@/contexts/AtsScoreContex";
+import UserProvider from "@/contexts/UserContex";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -71,12 +72,14 @@ export default function RootLayout({
                     "max-w-screen-2xl w-full h-full bg-black text-white"
                 )}
             >
-                <ResumeProvider>
-                    <AtsScoreProvider>
-                        {children}
-                        <Toaster />
-                    </AtsScoreProvider>
-                </ResumeProvider>
+                <UserProvider>
+                    <ResumeProvider>
+                        <AtsScoreProvider>
+                            {children}
+                            <Toaster />
+                        </AtsScoreProvider>
+                    </ResumeProvider>
+                </UserProvider>
             </body>
         </html>
     );
